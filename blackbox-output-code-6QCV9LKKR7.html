@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identificador de Mina</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: vertical;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #resultado {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Identificador de Mina</h1>
+    <p>Insira um texto abaixo e clique em "Analisar" para verificar o nível de Mina (identificação invertida: 100% IA = 0% Mina, 0% IA = 100% Mina).</p>
+    <textarea id="texto" placeholder="Digite seu texto aqui..."></textarea>
+    <button onclick="analisarTexto()">Analisar</button>
+    <div id="resultado"></div>
+
+    <script>
+        function analisarTexto() {
+            const texto = document.getElementById('texto').value.trim();
+            if (texto === '') {
+                document.getElementById('resultado').innerText = 'Por favor, insira um texto para análise.';
+                return;
+            }
+
+            // Simulação simples de detecção de IA (baseada em heurísticas básicas para demonstração)
+            // Nota: Isso é uma simulação; em um site real, você poderia integrar uma API de detecção de IA.
+            let pontuacaoIA = 0;
+
+            // Heurísticas simples:
+            // - Comprimento do texto (textos longos podem ser mais "IA-like")
+            if (texto.length > 200) pontuacaoIA += 20;
+            // - Presença de palavras repetidas ou frases formais
+            const palavrasRepetidas = (texto.match(/\b(\w+)\b/g) || []).filter((palavra, index, arr) => arr.indexOf(palavra) !== index).length;
+            pontuacaoIA += palavrasRepetidas * 5;
+            // - Uso de pontuação excessiva
+            const pontuacao = (texto.match(/[.,!?;:]/g) || []).length;
+            pontuacaoIA += pontuacao * 2;
+            // - Aleatoriedade para simular variação (0-100)
+            pontuacaoIA += Math.floor(Math.random() * 50);
+
+            // Limitar a 0-100
+            pontuacaoIA = Math.min(100, Math.max(0, pontuacaoIA));
+
+            // Identificação invertida: % Mina = 100 - % IA
+            const porcentagemMina = 100 - pontuacaoIA;
+
+            document.getElementById('resultado').innerText = `Porcentagem Mina: ${porcentagemMina}%`;
+        }
+    </script>
+</body>
+</html>
